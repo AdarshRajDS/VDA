@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "VDA 6.3 Auditor",
+  "version": "1.0.0",
+  "description": "VDA 6.3 audit assistant with header data, full questionnaire, and ChatGPT integration.",
+  "permissions": ["storage", "sidePanel", "tabs", "scripting", "clipboardWrite", "webNavigation"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://www.chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://*.chatgpt.com/*"
+  ],
+  "action": {
+    "default_title": "Open VDA 6.3 Auditor"
+  },
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://www.chatgpt.com/*",
+        "https://*.chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "js": ["src/content/chatgpt-bridge.ts"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}
